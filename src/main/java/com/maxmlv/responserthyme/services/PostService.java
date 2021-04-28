@@ -1,6 +1,7 @@
 package com.maxmlv.responserthyme.services;
 
 import com.maxmlv.responserthyme.models.Post;
+import com.maxmlv.responserthyme.models.PostLike;
 import com.maxmlv.responserthyme.models.User;
 import com.maxmlv.responserthyme.repositories.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class PostService {
@@ -28,12 +28,40 @@ public class PostService {
         return postRepository.findAll();
     }
 
+    public List<Boolean> checkPostsByPrincipal(List<Post> posts, User user) {
+        List<Boolean> checkedPostsByPrincipal = new ArrayList<>();
+
+        for (Post post : posts) {
+            boolean isLiked = false;
+            for (PostLike like : post.getLikes()) {
+                if (like.getUser().getId() == user.getId()) {
+                    isLiked = true;
+                    break;
+                }
+            }
+            checkedPostsByPrincipal.add(isLiked);
+        }
+        return checkedPostsByPrincipal;
+    }
+
     public Post findPostById(long post_id) {
         return postRepository.findById(post_id);
     }
 
+    public Boolean checkPostByPrincipal(long post_id, User user) {
+        Post post = findPostById(post_id);
+        for (PostLike like : post.getLikes()) {
+            if (like.getUser().getId() == user.getId())
+                return true;
+        }
+        return false;
+    }
+
     public Post addPost(String text, MultipartFile file, User user) throws IOException {
         Post newPost = new Post(text, user);
+
+        Date date = new Date();
+        newPost.setDate(date);
 
         if (file != null && !file.getOriginalFilename().isEmpty()) {
             File uploadDir = new File(uploadPath);

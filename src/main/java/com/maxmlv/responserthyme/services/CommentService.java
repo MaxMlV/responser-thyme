@@ -8,6 +8,7 @@ import com.maxmlv.responserthyme.repositories.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -21,6 +22,8 @@ public class CommentService {
 
     public Comment addComment(String text, User user, Post post) {
         Comment comment = new Comment(text, user, post);
+        Date date = new Date();
+        comment.setDate(date);
         return commentRepository.save(comment);
     }
 

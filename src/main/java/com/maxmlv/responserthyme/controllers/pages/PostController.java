@@ -1,6 +1,5 @@
 package com.maxmlv.responserthyme.controllers.pages;
 
-import com.maxmlv.responserthyme.models.Post;
 import com.maxmlv.responserthyme.models.User;
 import com.maxmlv.responserthyme.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,21 +7,20 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class HomeController {
+@RequestMapping("/post")
+public class PostController {
     @Autowired
     private PostService postService;
 
-    @GetMapping
-    public String getAllPosts(@AuthenticationPrincipal User user, Model model) {
-        List<Post> posts = postService.findAllPosts();
-        List<Boolean> isPrincipalLikedPostList = postService.checkPostsByPrincipal(posts, user);
+    @GetMapping("/{post_id}")
+    public String getPost(@AuthenticationPrincipal User user, @PathVariable("post_id") long post_id, Model model) {
+        model.addAttribute("post", postService.findPostById(post_id));
         model.addAttribute("principalUser", user);
-        model.addAttribute("posts", posts);
-        model.addAttribute("isPrincipalLikedPostList", isPrincipalLikedPostList);
-        return "home";
+        model.addAttribute("isPostLikedByPrincipal", postService.checkPostByPrincipal(post_id, user));
+        return "post";
     }
 }

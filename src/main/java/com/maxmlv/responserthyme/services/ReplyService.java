@@ -8,6 +8,8 @@ import com.maxmlv.responserthyme.repositories.ReplyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class ReplyService {
     @Autowired
@@ -19,6 +21,8 @@ public class ReplyService {
 
     public Reply addReply(String text, Post post, User user, Comment comment) {
         Reply reply = new Reply(text, post, user, comment);
+        Date date = new Date();
+        reply.setDate(date);
         return replyRepository.save(reply);
     }
 

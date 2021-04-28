@@ -30,14 +30,14 @@ public class PostApiController {
                           @RequestParam("text") String text,
                           @RequestParam("file") MultipartFile file) throws IOException {
         postService.addPost(text, file, user);
-        return "home";
+        return "redirect:/";
     }
 
-    @DeleteMapping("/{post_id}")
+    @PostMapping("/delete/{post_id}")
     public String delete(@PathVariable("post_id") long post_id) {
         replyService.deleteAllRepliesByPost(postService.findPostById(post_id));
         commentService.deleteAllCommentsByPost(postService.findPostById(post_id));
         postService.deletePost(post_id);
-        return "redirect:/home";
+        return "redirect:/";
     }
 }

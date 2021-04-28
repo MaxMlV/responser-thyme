@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<body>
+<div th:fragment="navbar">
+    <!-- Modal -->
+    <div  class="modal fade" id="addPostModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addPostModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addPostModalLabel">Add new post</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/api/post/add}" method="post" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="message-text" class="col-form-label">Text:</label>
+                            <textarea class="form-control" id="message-text" th:name="text"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Image:</label>
+                            <input class="form-control" type="file" id="formFile" th:name="file">
+                        </div>
+                        <div class="text-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Add post</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+        <div class="container col-xxl-5 col-xl-6">
+            <div class="text-start me-4">
+                <a class="navbar-brand" href="/"><b>Responser.</b></a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link" aria-current="page" href="/">Home</a>
+                    <a class="nav-link" aria-current="page" href="/profile">Profile</a>
+
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#addPostModal" >
+                        Add new post
+                    </button>
+
+
+
+                </div>
+            </div>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="text-end">
+                <form th:action="@{/logout}" method="post">
+                    <input type="submit" class="btn btn-outline-danger rounded-pill" value="Sign out">
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="height: 80px"></div>
+</div>
+
+<script>
+    $('#staticBackdrop').appendTo("body")
+</script>
+
+</body>
+</html>
+

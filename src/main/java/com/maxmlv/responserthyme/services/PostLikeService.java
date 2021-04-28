@@ -6,6 +6,7 @@ import com.maxmlv.responserthyme.models.User;
 import com.maxmlv.responserthyme.repositories.PostLikeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PostLikeService {
@@ -24,6 +25,7 @@ public class PostLikeService {
         return null;
     }
 
+    @Transactional
     public void deleteLike(Post post, User user) {
         postLikeRepository.deleteByPostAndUser(post, user);
     }

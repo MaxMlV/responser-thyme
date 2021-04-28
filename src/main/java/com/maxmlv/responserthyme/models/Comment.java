@@ -3,6 +3,7 @@ package com.maxmlv.responserthyme.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,6 +14,7 @@ public class Comment {
     private long id;
 
     private String text;
+    private Date date;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id")
@@ -74,5 +76,13 @@ public class Comment {
 
     public void setReplies(Set<Reply> replies) {
         this.replies = replies;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }
