@@ -1,6 +1,83 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <body>
+    <div th:fragment="profile_header(posts, media, likes)">
+        <div class="card-header text-center bg-light" >
 
+            <h1 class="card-title" th:text="${user.getFirstName() + '  ' + user.getLastName()}"></h1>
+            <h3 class="card-subtitle mb-3" th:text="${'@' + user.getUsername()}"></h3>
+
+            <div class="card-subtitle mb-4">
+                <!-- Button trigger modal -->
+                <button th:if="${principalUser.getId() == user.getId()}"
+                        type="button" class="btn btn-outline-primary rounded-pill"
+                        data-bs-toggle="modal" data-bs-target="#updateUserModal">
+                    Edit
+                </button>
+
+                <div th:if="${principalUser.getId() != user.getId()}">
+                    <form th:if="${isPrincipalStaredUser == false}" th:action="@{'/api/star/add/' + ${user.getId()}}" method="post">
+                        <button type="submit" class="btn btn-outline-warning rounded-pill" th:text="${'Star (' + user.getStars().size() + ')'}"></button>
+                    </form>
+
+                    <form th:if="${isPrincipalStaredUser == true}" th:action="@{'/api/star/delete/' + ${user.getId()}}" method="post">
+                        <button type="submit" class="btn btn-warning text-light rounded-pill" th:text="${'Unstar (' + user.getStars().size() + ')'}"></button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="btn-group mb-3 ms-4">
+                <form th:action="@{'/profile/' + ${user.getUsername()}}" method="get">
+                    <div th:switch="${posts}">
+                        <button th:case="0" type="submit" class="btn btn-primary me-4">Posts</button>
+                        <button th:case="1" type="submit" class="btn btn-primary active me-4">Posts</button>
+                    </div>
+                </form>
+                <form th:action="@{'/profile/' + ${user.getUsername()} + '/media'}" method="get">
+                    <div th:switch="${media}">
+                        <button th:case="0" type="submit" class="btn btn-primary me-4">Media</button>
+                        <button th:case="1" type="submit" class="btn btn-primary active me-4">Media</button>
+                    </div>
+                </form>
+                <form th:action="@{'/profile/' + ${user.getUsername()} + '/likes'}" method="get">
+                    <div th:switch="${likes}">
+                        <button th:case="0" type="submit" class="btn btn-primary me-4">Likes</button>
+                        <button th:case="1" type="submit" class="btn btn-primary active me-4">Likes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div th:fragment="edit_modal">
+        <!-- Modal -->
+        <div class="modal fade" id="updateUserModal" tabindex="-1" aria-labelledby="updateUserModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form th:action="@{/api/user/update}" method="post">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="updateUserModalLabel">Edit form</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group mb-4">
+                                <label class="mb-2" for="firstNameToUpdate">First name</label>
+                                <input type="text" class="form-control" id="firstNameToUpdate" placeholder="First name" th:value="${principalUser.getFirstName()}" th:name="firstNameToUpdate"
+                                       required minlength="2" maxlength="20">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="mb-2" for="lastNameToUpdate">Last name</label>
+                                <input type="text" class="form-control" id="lastNameToUpdate" placeholder="Last name" th:value="${principalUser.getLastName()}" th:name="lastNameToUpdate"
+                                       required minlength="2" maxlength="20">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

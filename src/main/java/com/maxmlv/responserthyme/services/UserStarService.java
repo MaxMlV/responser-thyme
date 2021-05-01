@@ -5,6 +5,7 @@ import com.maxmlv.responserthyme.models.UserStar;
 import com.maxmlv.responserthyme.repositories.UserStarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserStarService {
@@ -15,6 +16,10 @@ public class UserStarService {
         return  userStarRepository.findBySenderAndOwner(sender, owner);
     }
 
+    public Boolean isPrincipalStaredUser(User sender, User owner) {
+        return findUserStarBySenderAndOwner(sender, owner) != null;
+    }
+
     public UserStar addStar(User sender, User owner) {
         if (findUserStarBySenderAndOwner(sender, owner) == null) {
             UserStar userStar = new UserStar(sender, owner);
@@ -23,6 +28,7 @@ public class UserStarService {
         return null;
     }
 
+    @Transactional
     public void deleteStar(User sender, User owner) {
         userStarRepository.deleteBySenderAndOwner(sender, owner);
     }

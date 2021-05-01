@@ -23,13 +23,13 @@ public class UserStarApiController {
     public String addStar(@AuthenticationPrincipal User sender,
                           @PathVariable("user_id") long owner_id) {
         userStarService.addStar(sender, userService.findUserById(owner_id));
-        return "redirect:/profile/" + owner_id;
+        return "redirect:/profile/" + userService.findUserById(owner_id).getUsername();
     }
 
     @PostMapping("/delete/{user_id}")
     public String deleteStar(@AuthenticationPrincipal User sender,
                              @PathVariable("user_id") long owner_id) {
         userStarService.deleteStar(sender, userService.findUserById(owner_id));
-        return "redirect:/profile/" + owner_id;
+        return "redirect:/profile/" + userService.findUserById(owner_id).getUsername();
     }
 }

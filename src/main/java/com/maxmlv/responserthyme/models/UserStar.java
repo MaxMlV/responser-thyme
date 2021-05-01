@@ -11,12 +11,12 @@ public class UserStar {
     private long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "sender_id")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User sender;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "owner_id")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User owner;
 

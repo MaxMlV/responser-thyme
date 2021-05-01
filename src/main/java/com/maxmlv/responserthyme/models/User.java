@@ -35,6 +35,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<PostLike> likes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    private List<UserStar> stars = new ArrayList<>();
+
     public User() {
     }
 
@@ -156,4 +159,8 @@ public class User implements UserDetails {
     public void setLikes(List<PostLike> likes) {
         this.likes = likes;
     }
+
+    public List<UserStar> getStars() { return stars; }
+
+    public void setStars(List<UserStar> stars) { this.stars = stars; }
 }

@@ -7,24 +7,11 @@
 
 <div th:replace="fragments/navbar_fragment :: navbar"></div>
 
-<div class="container align-content-center col-xxl-4 col-xl-4 col-lg-4 col-md-4">
-    <div class="card">
-        <div class="card-header text-center bg-light" >
-            <h1 class="card-title" th:text="${user.getFirstName() + '  ' + user.getLastName()}"></h1>
-            <h3 class="card-subtitle " th:text="${'@' + user.getUsername()}"></h3>
+<div th:replace="fragments/profile_fragments :: edit_modal"></div>
 
-            <div class="btn-group mt-5 mb-3">
-                <form th:action="@{'/profile/' + ${user.getUsername()}}" method="get">
-                    <button type="submit" class="btn btn-primary me-4">Posts</button>
-                </form>
-                <form th:action="@{'/profile/' + ${user.getUsername()} + '/media'}" method="get">
-                    <button type="submit" class="btn btn-primary me-4">Media</button>
-                </form>
-                <form th:action="@{'/profile/' + ${user.getUsername()} + '/likes'}" method="get">
-                    <button type="submit" class="btn active btn-primary">Likes</button>
-                </form>
-            </div>
-        </div>
+<div class="container align-content-center col-xxl-4 col-xl-4 col-lg-4 col-md-4"  style="min-width: 510px">
+    <div class="card">
+        <div th:replace="fragments/profile_fragments :: profile_header(posts=0, media=0, likes=1)"></div>
         <div class="card-body">
             <div th:replace="fragments/post_fragments :: posts(class='container align-content-center col-xxl-9 col-xl-9 col-lg-9 col-md-9', redirect='profile/' + ${user.getUsername()} + '/likes')"></div>
         </div>

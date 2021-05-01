@@ -7,6 +7,7 @@ import com.maxmlv.responserthyme.models.User;
 import com.maxmlv.responserthyme.services.PostLikeService;
 import com.maxmlv.responserthyme.services.PostService;
 import com.maxmlv.responserthyme.services.UserService;
+import com.maxmlv.responserthyme.services.UserStarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -31,6 +32,9 @@ public class ProfileController {
     @Autowired
     private PostLikeService postLikeService;
 
+    @Autowired
+    private UserStarService userStarService;
+
 
     @GetMapping("/{username}")
     public String getUserProfilePosts(@AuthenticationPrincipal User principalUser,
@@ -40,6 +44,7 @@ public class ProfileController {
         List<Boolean> isPrincipalLikedPostList = postService.checkPostsByPrincipal(posts, principalUser);
         model.addAttribute("principalUser", principalUser);
         model.addAttribute("user", user);
+        model.addAttribute("isPrincipalStaredUser", userStarService.isPrincipalStaredUser(principalUser, user));
         model.addAttribute("posts", posts);
         model.addAttribute("isPrincipalLikedPostList", isPrincipalLikedPostList);
         return "profile";
