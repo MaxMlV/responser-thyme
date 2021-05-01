@@ -30,6 +30,12 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public User updateUser(User user , String firstName, String lastName) {
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        return userRepository.save(user);
+    }
+
     public void deleteUserById(long user_id) {
         User user = userRepository.findById(user_id);
         userRepository.delete(user);

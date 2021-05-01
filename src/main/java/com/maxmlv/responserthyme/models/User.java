@@ -4,9 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "usr")
@@ -17,6 +15,7 @@ public class User implements UserDetails {
 
     private String username;
     private String password;
+    private String confirmPassword;
     private String firstName;
     private String lastName;
 
@@ -28,22 +27,24 @@ public class User implements UserDetails {
     private boolean active;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<Post> posts = new HashSet<>();
+    private List<Post> posts = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<MediaFile> mediaFiles = new HashSet<>();
+    private List<MediaFile> mediaFiles = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<PostLike> likes = new HashSet<>();
+    private List<PostLike> likes = new ArrayList<>();
 
     public User() {
     }
 
-    public User(String username, String password, String firstName, String lastName, boolean active) {
+    public User(String username, String password, String confirmPassword, String firstName, String lastName, Set<Role> roles, boolean active) {
         this.username = username;
         this.password = password;
+        this.confirmPassword = confirmPassword;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.roles = roles;
         this.active = active;
     }
 
@@ -96,6 +97,10 @@ public class User implements UserDetails {
         this.password = password;
     }
 
+    public String getConfirmPassword() { return confirmPassword; }
+
+    public void setConfirmPassword(String confirmPassword) { this.confirmPassword = confirmPassword; }
+
     public String getFirstName() {
         return firstName;
     }
@@ -110,22 +115,6 @@ public class User implements UserDetails {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public Set<Post> getPosts() {
-        return posts;
-    }
-
-    public void setPosts(Set<Post> posts) {
-        this.posts = posts;
-    }
-
-    public Set<MediaFile> getMediaFiles() {
-        return mediaFiles;
-    }
-
-    public void setMediaFiles(Set<MediaFile> mediaFiles) {
-        this.mediaFiles = mediaFiles;
     }
 
     public Set<Role> getRoles() {
@@ -144,11 +133,27 @@ public class User implements UserDetails {
         this.active = active;
     }
 
-    public Set<PostLike> getLikes() {
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
+
+    public List<MediaFile> getMediaFiles() {
+        return mediaFiles;
+    }
+
+    public void setMediaFiles(List<MediaFile> mediaFiles) {
+        this.mediaFiles = mediaFiles;
+    }
+
+    public List<PostLike> getLikes() {
         return likes;
     }
 
-    public void setLikes(Set<PostLike> likes) {
+    public void setLikes(List<PostLike> likes) {
         this.likes = likes;
     }
 }

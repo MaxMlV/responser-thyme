@@ -16,12 +16,12 @@ public class HomeController {
     @Autowired
     private PostService postService;
 
-    @GetMapping
+    @GetMapping("/")
     public String getAllPosts(@AuthenticationPrincipal User user, Model model) {
-        List<Post> posts = postService.findAllPosts();
-        List<Boolean> isPrincipalLikedPostList = postService.checkPostsByPrincipal(posts, user);
+        List<Post> sortedPosts = postService.sortPostsByDate(postService.findAllPosts());
+        List<Boolean> isPrincipalLikedPostList = postService.checkPostsByPrincipal(sortedPosts, user);
         model.addAttribute("principalUser", user);
-        model.addAttribute("posts", posts);
+        model.addAttribute("posts", sortedPosts);
         model.addAttribute("isPrincipalLikedPostList", isPrincipalLikedPostList);
         return "home";
     }

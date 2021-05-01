@@ -3,9 +3,7 @@ package com.maxmlv.responserthyme.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Post {
@@ -23,13 +21,13 @@ public class Post {
     private User user;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private Set<Comment> comments = new HashSet<>();
+    private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private Set<PostLike> likes = new HashSet<>();
+    private List<PostLike> likes = new ArrayList<>();
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private Set<Reply> replies = new HashSet<>();
+    private List<Reply> replies = new ArrayList<>();
 
     public Post() {
     }
@@ -71,27 +69,27 @@ public class Post {
         this.user = user;
     }
 
-    public Set<Comment> getComments() {
+    public List<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(Set<Comment> comments) {
+    public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
 
-    public Set<PostLike> getLikes() {
+    public List<PostLike> getLikes() {
         return likes;
     }
 
-    public void setLikes(Set<PostLike> likes) {
+    public void setLikes(List<PostLike> likes) {
         this.likes = likes;
     }
 
-    public Set<Reply> getReplies() {
+    public List<Reply> getReplies() {
         return replies;
     }
 
-    public void setReplies(Set<Reply> replies) {
+    public void setReplies(List<Reply> replies) {
         this.replies = replies;
     }
 

@@ -16,12 +16,10 @@
   <div class="mb-4 mt-5">
     <h1 >Responser. | Sign up</h1>
   </div>
-  <form th:action="@{/api/user}" method="post" th:object="${user}" style="max-width: 350px; margin: 0 auto;">
+  <form th:action="@{/api/user/add}" method="post" th:object="${user}" style="max-width: 350px; margin: 0 auto;">
     <div>
-      <div  th:if="${errMessage != null}" class="alert alert-danger" role="alert">
-        User already exists!
-      </div>
-      <div class="form-floating mb-2">
+      <div  th:if="${errMessage != null || ''}" class="alert alert-danger" role="alert" th:text="${errMessage}"></div>
+      <div class="form-floating mb-4">
         <input type="text" class="form-control" id="floatingUsername" placeholder="Username" th:field="*{username}"
                required minlength="6" maxlength="12">
         <label for="floatingUsername">Username</label>
@@ -30,6 +28,11 @@
         <input type="password" class="form-control" id="floatingPassword" placeholder="Password" th:field="*{password}"
                required minlength="8" maxlength="16">
         <label for="floatingPassword">Password</label>
+      </div>
+      <div class="form-floating mb-4">
+        <input type="password" class="form-control" id="floatingConfirmPassword" placeholder="Confirm password" th:field="*{confirmPassword}"
+               required minlength="8" maxlength="16">
+        <label for="floatingConfirmPassword">Confirm password</label>
       </div>
       <div class="form-floating mb-2">
         <input type="text" class="form-control" id="floatingFirstName" placeholder="First name" th:field="*{firstName}"

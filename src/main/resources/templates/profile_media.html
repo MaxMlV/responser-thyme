@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/header_fragment :: header"></div>
+</head>
+<body>
+
+<div th:replace="fragments/navbar_fragment :: navbar"></div>
+
+<div class="container align-content-center col-xxl-4 col-xl-4 col-lg-4 col-md-4">
+    <div class="card">
+        <div class="card-header text-center bg-light" >
+            <h1 class="card-title" th:text="${user.getFirstName() + '  ' + user.getLastName()}"></h1>
+            <h3 class="card-subtitle " th:text="${'@' + user.getUsername()}"></h3>
+
+            <div class="btn-group mt-5 mb-3">
+                <form th:action="@{'/profile/' + ${user.getUsername()}}" method="get">
+                    <button type="submit" class="btn btn-primary me-4">Posts</button>
+                </form>
+                <form th:action="@{'/profile/' + ${user.getUsername()} + '/media'}" method="get">
+                    <button type="submit" class="btn btn-primary active me-4">Media</button>
+                </form>
+                <form th:action="@{'/profile/' + ${user.getUsername()} + '/likes'}" method="get">
+                    <button type="submit" class="btn btn-primary">Likes</button>
+                </form>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="container align-content-center col-xxl-9 col-xl-9 col-lg-9 col-md-9" th:each="mediaFile : ${mediaFiles}">
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <img th:src="${'/img/' + mediaFile.getFilename()}" class="card-img rounded mb-1"/>
+                        <form th:action="@{'/post/' + ${mediaFile.getPost().getId()}}" method="get">
+                            <button type="submit" class="btn btn-link text-secondary">See the post >></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:insert="fragments/footer_fragment :: footer"></div>
+</body>
+</html>

@@ -28,6 +28,31 @@ public class PostService {
         return postRepository.findAll();
     }
 
+    public Post findPostById(long post_id) {
+        return postRepository.findById(post_id);
+    }
+
+    public List<Post> findPostsByLikes(List<PostLike> likes) {
+        List<Post> likedPosts = new ArrayList<>();
+        for (PostLike like : likes){
+            if (like != null)
+                likedPosts.add(findPostById(like.getPost().getId()));
+        }
+        return likedPosts;
+    }
+
+    public List<Post> sortPostsByDate(List<Post> posts) {
+        Collections.sort(posts, new Comparator<Post>() {
+            @Override
+            public int compare(Post o1, Post o2) {
+                if (o1.getDate() == null || o2.getDate() == null)
+                    return 0;
+                return o2.getDate().compareTo(o1.getDate());
+            }
+        });
+        return posts;
+    }
+
     public List<Boolean> checkPostsByPrincipal(List<Post> posts, User user) {
         List<Boolean> checkedPostsByPrincipal = new ArrayList<>();
 
@@ -42,10 +67,6 @@ public class PostService {
             checkedPostsByPrincipal.add(isLiked);
         }
         return checkedPostsByPrincipal;
-    }
-
-    public Post findPostById(long post_id) {
-        return postRepository.findById(post_id);
     }
 
     public Boolean checkPostByPrincipal(long post_id, User user) {

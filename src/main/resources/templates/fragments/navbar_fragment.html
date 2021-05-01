@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <body>
 <div th:fragment="navbar">
     <!-- Modal -->
@@ -38,7 +38,7 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     <a class="nav-link" aria-current="page" href="/">Home</a>
-                    <a class="nav-link" aria-current="page" href="/profile">Profile</a>
+                    <a class="nav-link" aria-current="page" th:href="@{'/profile/' + ${principalUser.getUsername()}}">Profile</a>
 
                     <!-- Button trigger modal -->
                     <button type="button" class="btn btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#addPostModal" >

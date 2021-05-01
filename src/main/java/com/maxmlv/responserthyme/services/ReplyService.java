@@ -7,6 +7,7 @@ import com.maxmlv.responserthyme.models.User;
 import com.maxmlv.responserthyme.repositories.ReplyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
@@ -30,6 +31,7 @@ public class ReplyService {
         replyRepository.delete(findReplyById(reply_id));
     }
 
+    @Transactional
     public void deleteAllRepliesByPost(Post post) {
         replyRepository.deleteAllByPost(post);
     }

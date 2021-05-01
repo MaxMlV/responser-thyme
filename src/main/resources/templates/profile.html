@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/header_fragment :: header"></div>
+    <script type="text/javascript" src="../static/js/edit_modal.js"></script>
+</head>
+<body>
+
+    <div th:replace="fragments/navbar_fragment :: navbar"></div>
+
+    <div  th:if="${errMessage != null}" class="alert alert-danger" role="alert" th:text="${errMessage}"></div>
+
+    <!-- Modal -->
+    <div  class="modal fade" id="updateUserModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="updateUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateUserModalLabel">Edit profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/api/user/update}" method="post">
+                        <div>
+                            <div class="form-floating mb-2">
+                                <input type="text" class="form-control" id="floatingFirstName" placeholder="First name" th:name="firstNameToUpdate"
+                                       required minlength="2" maxlength="20">
+                                <label for="floatingFirstName">First name</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingLastName" placeholder="Last name" th:name="lastNameToUpdate"
+                                       required minlength="2" maxlength="20">
+                                <label for="floatingLastName">Last name</label>
+                            </div>
+
+                            <div class="mb-2">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container align-content-center col-xxl-4 col-xl-4 col-lg-4 col-md-4" style="min-width: 510px">
+        <div class="card">
+            <div class="card-header text-center bg-light" >
+
+                <h1 class="card-title" th:text="${user.getFirstName() + '  ' + user.getLastName()}"></h1>
+                <h3 class="card-subtitle mb-3" th:text="${'@' + user.getUsername()}"></h3>
+
+                <div class="card-subtitle mb-4">
+                    <button th:if="${principalUser.getId() == user.getId()}" type="button" class=" btn btn-outline-primary rounded-pill" data-toggle="modal" data-target="#updateUserModal"
+                            th:data-first-name="${principalUser.getFirstName()}" th:data-last-name="${principalUser.getLastName()}">Edit</button>
+                </div>
+
+                <div class="btn-group mb-3">
+                    <form th:action="@{'/profile/' + ${user.getUsername()}}" method="get">
+                        <button type="submit" class="btn btn-primary active me-4">Posts</button>
+                    </form>
+                    <form th:action="@{'/profile/' + ${user.getUsername()} + '/media'}" method="get">
+                        <button type="submit" class="btn btn-primary me-4">Media</button>
+                    </form>
+                    <form th:action="@{'/profile/' + ${user.getUsername()} + '/likes'}" method="get">
+                        <button type="submit" class="btn btn-primary">Likes</button>
+                    </form>
+                </div>
+            </div>
+            <div class="card-body">
+                <div th:replace="fragments/post_fragments :: posts(class='container align-content-center col-xxl-9 col-xl-9 col-lg-9 col-md-9', redirect='profile/' + ${user.getUsername()})"></div>
+            </div>
+        </div>
+    </div>
+
+    <div th:insert="fragments/footer_fragment :: footer"></div>
+</body>
+</html>

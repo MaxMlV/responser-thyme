@@ -20,15 +20,16 @@ public class PostLikeApiController {
     private PostService postService;
 
     @PostMapping("/add/{post_id}")
-    public String like(@AuthenticationPrincipal User user, @PathVariable("post_id") long post_id) {
+    public String like(@AuthenticationPrincipal User user, @PathVariable("post_id") long post_id, @RequestParam("redirect") String redirect) {
         postLikeService.addLike(postService.findPostById(post_id), user);
-        return "redirect:/";
+        return "redirect:/" + redirect;
     }
 
     @PostMapping("/delete/{post_id}")
     public String dislike(@AuthenticationPrincipal User user,
-                          @PathVariable("post_id") long post_id) {
+                          @PathVariable("post_id") long post_id,
+                          @RequestParam("redirect") String redirect) {
         postLikeService.deleteLike(postService.findPostById(post_id), user);
-        return "redirect:/";
+        return "redirect:/" + redirect;
     }
 }

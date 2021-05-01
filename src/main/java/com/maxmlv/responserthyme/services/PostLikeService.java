@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class PostLikeService {
     @Autowired
@@ -15,6 +17,10 @@ public class PostLikeService {
 
     public PostLike findLikeByPostAndUser(Post post, User user) {
         return postLikeRepository.findByPostAndUser(post, user);
+    }
+
+    public List<PostLike> findAllByUser(User user) {
+        return postLikeRepository.findAllByUser(user);
     }
 
     public PostLike addLike(Post post, User user) {
@@ -30,6 +36,7 @@ public class PostLikeService {
         postLikeRepository.deleteByPostAndUser(post, user);
     }
 
+    @Transactional
     public void deleteAllByPost(Post post) {
         postLikeRepository.deleteAllByPost(post);
     }

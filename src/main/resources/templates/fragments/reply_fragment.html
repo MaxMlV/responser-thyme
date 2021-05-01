@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<body>
+    <div th:fragment="replies">
+        <div class="ms-5 mt-1" th:each="reply : ${comment.getReplies()}">
+            <div class="d-flex align-items-start ">
+
+                <div class="bd-highlight me-1">
+                    <h6 class="card-title" th:text="${reply.getUser().firstName + ' ' + reply.getUser().lastName}"></h6>
+                </div>
+
+                <div class="bd-highlight">
+                    <p class="card-subtitle text-muted" th:text="${'@' + reply.getUser().username}"></p>
+                </div>
+
+                <div class="bd-highlight">
+                    <p class="card-subtitle text-muted">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-dot" viewBox="0 0 16 16">
+                            <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                        </svg>
+                    </p>
+                </div>
+
+                <div class="bd-highlight">
+                    <p class="card-subtitle text-muted" th:text="${#dates.format(reply.getDate(), 'd MMM yyyy HH:mm')}"></p>
+                </div>
+
+                <div th:if="${reply.getUser().getId() == principalUser.getId()}" class="ms-auto bd-highlight">
+                    <form th:action="@{'/api/reply/delete/{post_id}/{reply_id}' (post_id=${post.getId()}, reply_id=${reply.getId()})}" method="post">
+                        <button type="submit" class="btn-close"></button>
+                    </form>
+                </div>
+            </div>
+
+            <p class="card-text mb-3 ms-3 me-5" th:text="${reply.getText()}"></p>
+        </div>
+    </div>
+</body>
+</html>

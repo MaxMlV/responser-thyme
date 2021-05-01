@@ -3,9 +3,7 @@ package com.maxmlv.responserthyme.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Comment {
@@ -27,7 +25,7 @@ public class Comment {
     private Post post;
 
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
-    private Set<Reply> replies = new HashSet<>();
+    private List<Reply> replies = new ArrayList<>();
 
     public Comment() {
     }
@@ -70,11 +68,11 @@ public class Comment {
         this.post = post;
     }
 
-    public Set<Reply> getReplies() {
+    public List<Reply> getReplies() {
         return replies;
     }
 
-    public void setReplies(Set<Reply> replies) {
+    public void setReplies(List<Reply> replies) {
         this.replies = replies;
     }
 
