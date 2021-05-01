@@ -2,45 +2,40 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <div th:replace="fragments/header_fragment :: header"></div>
-    <script type="text/javascript" src="../static/js/edit_modal.js"></script>
 </head>
 <body>
 
     <div th:replace="fragments/navbar_fragment :: navbar"></div>
 
-    <div  th:if="${errMessage != null}" class="alert alert-danger" role="alert" th:text="${errMessage}"></div>
-
     <!-- Modal -->
-    <div  class="modal fade" id="updateUserModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="updateUserModalLabel" aria-hidden="true">
+    <div class="modal fade" id="updateUserModal" tabindex="-1" aria-labelledby="updateUserModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="updateUserModalLabel">Edit profile</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form th:action="@{/api/user/update}" method="post">
-                        <div>
-                            <div class="form-floating mb-2">
-                                <input type="text" class="form-control" id="floatingFirstName" placeholder="First name" th:name="firstNameToUpdate"
-                                       required minlength="2" maxlength="20">
-                                <label for="floatingFirstName">First name</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="floatingLastName" placeholder="Last name" th:name="lastNameToUpdate"
-                                       required minlength="2" maxlength="20">
-                                <label for="floatingLastName">Last name</label>
-                            </div>
-
-                            <div class="mb-2">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
+                <form th:action="@{/api/user/update}" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateUserModalLabel">Edit form</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group mb-4">
+                            <label class="mb-2" for="firstNameToUpdate">First name</label>
+                            <input type="text" class="form-control" id="firstNameToUpdate" placeholder="First name" th:value="${principalUser.getFirstName()}" th:name="firstNameToUpdate"
+                                   required minlength="2" maxlength="20">
                         </div>
-                    </form>
-                </div>
+                        <div class="form-group mb-3">
+                            <label class="mb-2" for="lastNameToUpdate">Last name</label>
+                            <input type="text" class="form-control" id="lastNameToUpdate" placeholder="Last name" th:value="${principalUser.getLastName()}" th:name="lastNameToUpdate"
+                                   required minlength="2" maxlength="20">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+
 
     <div class="container align-content-center col-xxl-4 col-xl-4 col-lg-4 col-md-4" style="min-width: 510px">
         <div class="card">
@@ -50,8 +45,12 @@
                 <h3 class="card-subtitle mb-3" th:text="${'@' + user.getUsername()}"></h3>
 
                 <div class="card-subtitle mb-4">
-                    <button th:if="${principalUser.getId() == user.getId()}" type="button" class=" btn btn-outline-primary rounded-pill" data-toggle="modal" data-target="#updateUserModal"
-                            th:data-first-name="${principalUser.getFirstName()}" th:data-last-name="${principalUser.getLastName()}">Edit</button>
+                    <!-- Button trigger modal -->
+                    <button th:if="${principalUser.getId() == user.getId()}"
+                            type="button" class="btn btn-outline-primary rounded-pill"
+                            data-bs-toggle="modal" data-bs-target="#updateUserModal">
+                        Edit
+                    </button>
                 </div>
 
                 <div class="btn-group mb-3">
