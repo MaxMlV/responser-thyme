@@ -23,7 +23,8 @@ public class MediaFile {
     private Post post;
 
     @Lob
-    @Column(name = "blobImg", columnDefinition="bytea")
+    @Type(type="org.hibernate.type.BinaryType")
+    @Column(name = "image")
     private byte[] blobImg;
 
     public MediaFile() {
