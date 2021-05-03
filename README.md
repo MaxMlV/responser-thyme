@@ -1,4 +1,4 @@
-# responser-thyme
+# responser.
 
 This is graduation project for Prog.kiev.ua courses on position Java Back-end Developer. 
 
