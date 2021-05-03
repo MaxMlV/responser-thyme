@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.util.*;
 
 @Entity
+@Table(name = "comments")
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

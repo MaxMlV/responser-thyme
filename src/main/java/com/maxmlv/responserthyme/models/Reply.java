@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Table(name = "replies")
 public class Reply {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

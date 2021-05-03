@@ -6,6 +6,7 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "madia_files")
 public class MediaFile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
