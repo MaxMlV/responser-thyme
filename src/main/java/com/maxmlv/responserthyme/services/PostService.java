@@ -5,11 +5,9 @@ import com.maxmlv.responserthyme.models.PostLike;
 import com.maxmlv.responserthyme.models.User;
 import com.maxmlv.responserthyme.repositories.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -21,11 +19,8 @@ public class PostService {
     @Autowired
     private MediaFileService mediaFileService;
 
-    @Value("${upload.path}")
-    private String uploadPath;
-
     public List<Post> findAllPosts() {
-        return postRepository.findAll();
+        return postRepository.findAllByOrderByDateDesc();
     }
 
     public Post findPostById(long post_id) {
@@ -78,29 +73,12 @@ public class PostService {
         return false;
     }
 
-    public Post addPost(String text, MultipartFile file, User user) throws IOException {
+    public Post addPost(String text, User user) throws IOException {
         Post newPost = new Post(text, user);
 
         Date date = new Date();
         newPost.setDate(date);
 
-        if (file != null && !file.getOriginalFilename().isEmpty()) {
-            File uploadDir = new File(uploadPath);
-            if (!uploadDir.exists()) {
-                uploadDir.mkdirs();
-            }
-            String uuidFile = UUID.randomUUID().toString();
-            String resFilename = uuidFile + "." + file.getOriginalFilename();
-
-            file.transferTo(new File(uploadPath + "/" + resFilename));
-
-            newPost.setFilename(resFilename);
-            newPost = postRepository.save(newPost);
-
-            mediaFileService.addMediaFile(user, newPost, resFilename);
-
-            return postRepository.save(newPost);
-        }
         return postRepository.save(newPost);
     }
 

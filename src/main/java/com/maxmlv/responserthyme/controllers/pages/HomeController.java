@@ -18,7 +18,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String getAllPosts(@AuthenticationPrincipal User user, Model model) {
-        List<Post> sortedPosts = postService.sortPostsByDate(postService.findAllPosts());
+        List<Post> sortedPosts = postService.findAllPosts();
         List<Boolean> isPrincipalLikedPostList = postService.checkPostsByPrincipal(sortedPosts, user);
         model.addAttribute("principalUser", user);
         model.addAttribute("posts", sortedPosts);

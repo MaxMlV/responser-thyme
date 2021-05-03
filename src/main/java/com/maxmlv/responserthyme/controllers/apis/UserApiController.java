@@ -25,7 +25,7 @@ public class UserApiController {
             model.addAttribute("errMessage", "Password not confirmed!");
             return "registration";
         } else {
-            userService.addUser(user);
+            User user1 = userService.addUser(user);
         }
         return "login";
     }

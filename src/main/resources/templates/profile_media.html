@@ -18,7 +18,7 @@
             <div class="container align-content-center col-xxl-9 col-xl-9 col-lg-9 col-md-9" th:each="mediaFile : ${mediaFiles}">
                 <div class="card mb-2">
                     <div class="card-body">
-                        <img th:src="${'/img/' + mediaFile.getFilename()}" class="card-img rounded mb-1"/>
+                        <img th:src="@{'/api/image/' + ${mediaFile.getId()}}" class="card-img rounded mb-1"/>
                         <form th:action="@{'/post/' + ${mediaFile.getPost().getId()}}" method="get">
                             <button type="submit" class="btn btn-link text-secondary">See the post >></button>
                         </form>

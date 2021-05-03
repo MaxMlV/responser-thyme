@@ -12,13 +12,15 @@ public class Post {
     private long id;
 
     private String text;
-    private String filename;
     private Date date;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User user;
+
+    @OneToOne(mappedBy = "post", cascade = CascadeType.ALL)
+    private MediaFile mediaFile;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
@@ -53,12 +55,12 @@ public class Post {
         this.text = text;
     }
 
-    public String getFilename() {
-        return filename;
+    public MediaFile getMediaFile() {
+        return mediaFile;
     }
 
-    public void setFilename(String filename) {
-        this.filename = filename;
+    public void setMediaFile(MediaFile mediaFile) {
+        this.mediaFile = mediaFile;
     }
 
     public User getUser() {

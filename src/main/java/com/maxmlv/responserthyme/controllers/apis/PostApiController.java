@@ -7,23 +7,16 @@ import com.maxmlv.responserthyme.services.MediaFileService;
 import com.maxmlv.responserthyme.services.PostService;
 import com.maxmlv.responserthyme.services.ReplyService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 @Controller
 @RequestMapping("/api/post")
 public class PostApiController {
-    @Value("${upload.path}")
-    private String uploadPath;
 
     @Autowired
     private PostService postService;
@@ -41,7 +34,9 @@ public class PostApiController {
     public String addPost(@AuthenticationPrincipal User user,
                           @RequestParam("text") String text,
                           @RequestParam("file") MultipartFile file) throws IOException {
-        postService.addPost(text, file, user);
+        Post post = postService.addPost(text, user);
+        if (file != null && !(file.isEmpty()))
+            mediaFileService.addMediaFile(user, post, file);
         return "redirect:/";
     }
 
@@ -49,11 +44,6 @@ public class PostApiController {
     public String delete(@PathVariable("post_id") long post_id,
                          @RequestParam("redirect") String redirect) throws IOException {
         Post post = postService.findPostById(post_id);
-
-        if (post.getFilename() != null) {
-        Path mediaFilePath = FileSystems.getDefault().getPath(uploadPath + "/" + post.getFilename());
-        Files.delete(mediaFilePath);
-        }
 
         mediaFileService.deleteByPost(post);
         replyService.deleteAllRepliesByPost(post);

@@ -25,7 +25,9 @@ public class UserService {
 
     public User addUser(User user) {
         String encodedPass = encodePassword(user.getPassword());
+        String encodedConfirmPass = encodePassword(user.getConfirmPassword());
         user.setPassword(encodedPass);
+        user.setConfirmPassword(encodedConfirmPass);
         user.setActive(true);
         return userRepository.save(user);
     }

@@ -12,5 +12,6 @@ import java.util.List;
 @Repository
 public interface MediaFilesRepository extends JpaRepository<MediaFile, Long> {
     List<MediaFile> findAllByUser(User user);
+    MediaFile findById(long media_id);
     void deleteByPost(Post post);
 }

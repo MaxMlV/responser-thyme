@@ -1,6 +1,7 @@
 package com.maxmlv.responserthyme.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
@@ -15,19 +16,22 @@ public class MediaFile {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User user;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "post_id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Post post;
 
-    private String filename;
+    @Lob
+    @Column(name = "blobImg", columnDefinition="MEDIUMBLOB")
+    private byte[] blobImg;
 
     public MediaFile() {
     }
 
-    public MediaFile(User user, Post post, String filename) {
+    public MediaFile(User user, Post post, byte[] blobImg) {
         this.user = user;
         this.post = post;
-        this.filename = filename;
+        this.blobImg = blobImg;
     }
 
     public long getId() {
@@ -54,11 +58,11 @@ public class MediaFile {
         this.post = post;
     }
 
-    public String getFilename() {
-        return filename;
+    public byte[] getBlobImg() {
+        return blobImg;
     }
 
-    public void setFilename(String filename) {
-        this.filename = filename;
+    public void setBlobImg(byte[] blobImg) {
+        this.blobImg = blobImg;
     }
 }
