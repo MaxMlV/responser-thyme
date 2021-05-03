@@ -23,7 +23,7 @@ public class MediaFile {
     private Post post;
 
     @Lob
-    @Column(name = "blobImg", columnDefinition="BLOB")
+    @Column(name = "blobImg", columnDefinition="bytea")
     private byte[] blobImg;
 
     public MediaFile() {
